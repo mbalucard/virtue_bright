@@ -105,3 +105,49 @@ async def medical_insurance_ent(
         response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
     return response.json()
 
+async def get_mi_page(
+    authorization: str,
+    tenant_id: Optional[int] = None,
+    keyword: Optional[str] = None,
+    current: int = 1,
+    size: int = 10,
+    status: int = 1,)->dict:
+    """
+    获取门店信息-ehr下拉检索用
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+        keyword (str, None): 关键字检索. Defaults to None.
+            - 门店名称 门店简称 门店编码
+        current (int): 当前页. Defaults to 1.
+        size (int): 每页条目数. Defaults to 10.
+    Returns:
+        dict: 获取门店信息-ehr下拉检索用
+    """
+    url = f"{base_url}/getMiPage"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "current": current,
+        "size": size,
+        "keyword": keyword,
+        "status": status,
+        "_t": timestamp()
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
+
+if __name__ == "__main__":
+    import asyncio
+    authorization = "Bearer new_2523d693-9265-4016-a6e3-e34f5a5dff90"
+    tenant_id = 148
+    keyword = "ZXLYYFZDDED"
+    current = 1
+    size = 10
+    data = asyncio.run(get_mi_page(authorization, tenant_id, keyword, current, size))
+    print(data)
