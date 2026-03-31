@@ -134,6 +134,34 @@ async def position_page(
         response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
     return response.json()
 
+
+async def position_list(
+    authorization: str,
+    tenant_id: Optional[int] = None,
+    basicDate: Optional[str] = None,)->dict:
+    """
+    职位列表
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+
+    Returns:
+        dict: 职位列表
+    """
+    url = f"{base_url}/position/list"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "basicDate": basicDate if basicDate else get_current_date(),
+        "_": timestamp(),
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
 if __name__ == "__main__":
     import asyncio
 
@@ -141,7 +169,7 @@ if __name__ == "__main__":
     tenant_id = 148
 
     async def main():
-        data = await position_page(authorization, tenant_id)
+        data = await position_list(authorization, tenant_id)
         print(data)
 
     asyncio.run(main())

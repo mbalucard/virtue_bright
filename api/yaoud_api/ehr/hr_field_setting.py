@@ -1,6 +1,7 @@
 """
 字段设置
     - 获取人事字段设置列表: get_field_setting_list
+    - 获取人事字段设置详情: field_setting_detail
 """
 
 
