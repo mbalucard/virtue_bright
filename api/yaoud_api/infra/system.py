@@ -2,6 +2,7 @@
 系统管理
     - 切换到租户切换页: switch_owner_page
     - 切换机构: switch_organ
+    - 获取企业列表: get_enterprise_list
 """
 
 from httpx import AsyncClient
@@ -55,3 +56,36 @@ async def switch_organ(authorization: str, organ_id: int) -> dict:
     async with AsyncClient() as client:
         response = await client.get(url, headers=headers, params=params)
     return response.json()
+
+async def get_enterprise_list(
+    authorization: str,
+    tenant_id: Optional[int] = None,
+)->dict:
+    """
+    获取企业列表
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+    Returns:
+        dict: 企业列表
+    """
+    url = f"{base_url}/getEnterpriseList"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {"_t": timestamp()}
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
+
+if __name__ == "__main__":
+    import asyncio
+    authorization = "Bearer new_521d29cf-d5dd-450c-b2d0-9c05ebe77c50"
+    tenant_id = 148
+    async def main():
+        data = await get_enterprise_list(authorization, tenant_id)
+        print(data)
+    asyncio.run(main())

@@ -1,6 +1,7 @@
 """
 岗位
     - 质量岗位列表: quality_post_page
+    - 质量岗位列表: quality_post_list
 """
 
 
@@ -58,14 +59,38 @@ async def quality_post_page(
         response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
     return response.json()
 
+
+async def quality_post_list(
+    authorization: str,
+    tenant_id: Optional[int] = None,)->dict:
+    """
+    质量岗位列表
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+    Returns:
+        dict: 质量岗位列表
+    """
+    url = f"{base_url}/queryList"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {"_t":timestamp()}
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
+
 if __name__ == "__main__":
     import asyncio
 
-    authorization = "Bearer new_9b24772f-dab0-4586-94ca-aea0caf53744"
+    authorization = "Bearer new_d5e00235-3fd3-442f-9526-ab312d40d115"
     tenant_id = 148
 
     async def main():
-        data = await quality_post_page(authorization, tenant_id)
+        data = await quality_post_list(authorization, tenant_id)
         print(data)
 
     asyncio.run(main())

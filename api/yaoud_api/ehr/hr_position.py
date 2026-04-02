@@ -3,6 +3,7 @@
     - 职位分类列表: position_classification_page
     - 职位等级列表: position_level_page
     - 职位列表: position_page
+    - 职位分类列表: position_classification_list
 """
 
 
@@ -162,14 +163,40 @@ async def position_list(
         response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
     return response.json()
 
+
+async def position_classification_list(
+    authorization: str,
+    tenant_id: Optional[int] = None,)->dict:
+    """
+    职位分类列表
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+    Returns:
+    """
+    url = f"{base_url}/classification/list"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "_": timestamp(),
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
+
+
 if __name__ == "__main__":
     import asyncio
 
-    authorization = "Bearer new_b8f5e376-4900-4a32-87d4-d4fc959947f1"
+    authorization = "Bearer new_d5e00235-3fd3-442f-9526-ab312d40d115"
     tenant_id = 148
 
     async def main():
-        data = await position_list(authorization, tenant_id)
+        data = await position_classification_list(authorization, tenant_id)
         print(data)
 
     asyncio.run(main())
