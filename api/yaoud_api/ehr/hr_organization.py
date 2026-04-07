@@ -1,6 +1,7 @@
 """
 组织架构
     - 组织架构树-下拉检索用: department_tree
+    - 登录账户权限组织架构树-下拉检索用: auth_department_tree
     - 组织架构列表: organization_page_list
     - 组织架构详情: organization_detail
     - 人事同步日志-组织: organization_sync_log
@@ -40,18 +41,44 @@ async def department_tree(
     return response.json()
 
 
+async def auth_department_tree(
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
+    """
+    登录账户权限组织架构树-下拉检索用
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+    Returns:
+        dict: 登录账户权限组织架构树
+    """
+    url = f"{base_url}/getAuthDepartmentTree"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "permission": None,
+        "i18nCode": "ehr.router.commission.target.plan.details",
+        "_t": timestamp()
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+    return response.json()
+
+
 async def organization_page_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    status: int = 1,
-    employeeIsCorporation: Optional[int] = None,
-    baseDate: Optional[str] = None,
-    departmentCode: Optional[str] = None,
-    departmentTypeCode: Optional[str] = None,
-    departmentHeadId: Optional[int] = None,
-    superiorDepartmentCode: Optional[str] = None,
-    clinicStoreCode: Optional[str] = None,
-) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        status: int = 1,
+        employeeIsCorporation: Optional[int] = None,
+        baseDate: Optional[str] = None,
+        departmentCode: Optional[str] = None,
+        departmentTypeCode: Optional[str] = None,
+        departmentHeadId: Optional[int] = None,
+        superiorDepartmentCode: Optional[str] = None,
+        clinicStoreCode: Optional[str] = None,) -> dict:
     """
     组织架构列表
     Args:
@@ -82,7 +109,7 @@ async def organization_page_list(
         "client-tom": "Y",
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
-    
+
     payload = {
         "status": status,
         "employeeIsCorporation": employeeIsCorporation,
@@ -99,10 +126,10 @@ async def organization_page_list(
 
 
 async def organization_detail(
-    authorization: str,
-    id: int,
-    version_id: int,
-    tenant_id: Optional[int] = None,)->dict:
+        authorization: str,
+        id: int,
+        version_id: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     组织架构详情
     Args:
@@ -130,18 +157,19 @@ async def organization_detail(
         response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
     return response.json()
 
+
 async def organization_sync_log(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 10,
-    syncDepartmentName: Optional[str] = None,
-    calcStatus: Optional[str] = None,
-    syncType: Optional[str] = None,
-    syncDisType: Optional[int] = None,
-    syncSystem: Optional[int] = None,
-    syncTimeStart: Optional[str] = None,
-    syncTimeEnd: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 10,
+        syncDepartmentName: Optional[str] = None,
+        calcStatus: Optional[str] = None,
+        syncType: Optional[str] = None,
+        syncDisType: Optional[int] = None,
+        syncSystem: Optional[int] = None,
+        syncTimeStart: Optional[str] = None,
+        syncTimeEnd: Optional[str] = None,) -> dict:
     """
     人事同步日志-组织
     Args:
@@ -187,19 +215,16 @@ async def organization_sync_log(
     return response.json()
 
 
-
-
 if __name__ == "__main__":
     import asyncio
-    authorization = "Bearer new_521d29cf-d5dd-450c-b2d0-9c05ebe77c50"
+    authorization = "Bearer new_3f765ea0-fd65-43e8-9d18-f9b5f5151f9a"
     tenant_id = 148
     id = 4
     version_id = 4
+
     async def main():
-        data = await organization_detail(
-            authorization, 
-            id=id,
-            version_id=version_id, 
+        data = await auth_department_tree(
+            authorization,
             tenant_id=tenant_id)
         print(data)
     asyncio.run(main())
