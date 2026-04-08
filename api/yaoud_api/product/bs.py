@@ -659,7 +659,10 @@ async def external_goods_page_list(
         tenant_id: Optional[int] = None,
         current: int = 1,
         size: int = 20,
-        keyword: Optional[str] = "") -> dict:
+        keyword: Optional[str] = "",
+        isEnabled: Optional[int] = None,
+        isGetEnterpriseName: Optional[int] = 1,
+        ) -> dict:
     """
     企业级商品资料检索-简易
     Args:
@@ -669,6 +672,11 @@ async def external_goods_page_list(
         size (int, optional): 每页条数. Defaults to 20.
         keyword (str, optional): 关键词. Defaults to "".
             - 支持商品名称、商品编码、国际条码、通用名称、助记码、批准文号
+        isEnabled: 商品是否启用. Defaults to None.
+            - 1-启用 
+            - #! 该参数好像失效，待后续验证
+        isGetEnterpriseName: 是否获取企业名称. Defaults to 1.
+            - 1-是
     Returns:
         dict: 企业级商品资料检索结果
     """
@@ -684,6 +692,8 @@ async def external_goods_page_list(
         "keyword": keyword,
         "sortCode": "gr_product",
         "businessType": "gr_product",
+        "isEnabled": isEnabled,
+        "isGetEnterpriseName": isGetEnterpriseName,
         "_t": timestamp()
     }
     async with AsyncClient() as client:
@@ -717,3 +727,17 @@ async def user_product_class_tree(
     async with AsyncClient() as client:
         response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
     return response.json()
+
+
+if __name__ == "__main__":
+    import asyncio
+    authorization = "Bearer new_c05d11d5-ceaf-4913-8ee7-0a3335205e83"
+    tenant_id = 148
+    async def main():
+        data = await external_goods_page_list(
+            authorization=authorization, 
+            tenant_id=tenant_id,
+            isEnabled=0,
+        )
+        print(data)
+    asyncio.run(main())
