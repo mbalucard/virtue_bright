@@ -11,6 +11,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/shopProduct/adjustAudit"
+TTL = yaoud_env["timeout"]
 
 
 async def price_record_adjust_audit(
@@ -38,5 +39,5 @@ async def price_record_adjust_audit(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

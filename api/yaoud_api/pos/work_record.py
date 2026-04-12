@@ -13,17 +13,19 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/pos/workRecord"
+TTL = yaoud_env["timeout"]
+
 
 async def work_record(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    workTimeStart: Optional[str] = None,
-    workTimeEnd: Optional[str] = None,
-    brId: Optional[int] = None,
-    cashierId: Optional[int] = None,
-    workNo: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        workTimeStart: Optional[str] = None,
+        workTimeEnd: Optional[str] = None,
+        brId: Optional[int] = None,
+        cashierId: Optional[int] = None,
+        workNo: Optional[str] = None,) -> dict:
     """
     交班记录
     Args:
@@ -68,19 +70,20 @@ async def work_record(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def work_record_summary(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    workTimeStart: Optional[str] = None,
-    workTimeEnd: Optional[str] = None,
-    brId: Optional[int] = None,
-    cashierId: Optional[int] = None,
-    workNo: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        workTimeStart: Optional[str] = None,
+        workTimeEnd: Optional[str] = None,
+        brId: Optional[int] = None,
+        cashierId: Optional[int] = None,
+        workNo: Optional[str] = None,) -> dict:
     """
     交班记录-摘要
     Args:
@@ -124,6 +127,5 @@ async def work_record_summary(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params
-        , timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

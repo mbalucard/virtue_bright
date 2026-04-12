@@ -8,10 +8,12 @@ from httpx import AsyncClient
 from typing import Optional
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
+from api.yaoud_api.general_tools import get_date_start_and_end_time, timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/memberUser"
+TTL = yaoud_env["timeout"]
+
 
 async def member_channel(
         authorization: str,
@@ -34,7 +36,7 @@ async def member_channel(
         "_": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -186,6 +188,5 @@ async def member_user_list(
         "growthEnd": growthEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
-

@@ -25,3 +25,4 @@ class RedisServer:
 if __name__ == '__main__':
     print(DockerPostgreSQL.host)
     print(RedisServer.Host)
+    print(DockerPostgreSQL.database)

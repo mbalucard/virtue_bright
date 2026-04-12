@@ -15,6 +15,8 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/product/bs"
+TTL = yaoud_env["timeout"]
+
 
 async def select_goods_info(
         authorization: str,
@@ -68,7 +70,7 @@ async def select_goods_info(
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -142,7 +144,7 @@ async def goods_page_list(
         createEndDate: Optional[str] = None,
         updateStartDate: Optional[str] = None,
         updateEndDate: Optional[str] = None,
-        
+
         minDaysForNearWarn: Optional[int] = None,
         maxDaysForNearWarn: Optional[int] = None,
         minInStorageValidityDays: Optional[int] = None,
@@ -185,7 +187,7 @@ async def goods_page_list(
         maxUseBoxes: Optional[int] = None,
         minInsValidity: Optional[int] = None,
         maxInsValidity: Optional[int] = None,
-        
+
         insValidityTypes: Optional[List[str]] = None,
         isEnables: Optional[List[int]] = None,
         isGspinfos: Optional[List[int]] = None,
@@ -230,9 +232,7 @@ async def goods_page_list(
         doseUnits: Optional[List[str]] = None,
         taxClassificationCodes: Optional[List[str]] = None,
         splitUnits: Optional[List[str]] = None,
-        productSecondTypes: Optional[List[str]] = None,
-        
-        ) -> dict:
+        productSecondTypes: Optional[List[str]] = None,) -> dict:
     """
     商品资料查询(企业级)
     Args:
@@ -242,7 +242,7 @@ async def goods_page_list(
         size (int): 每页数据数量. Defaults to 20.
         sortCode(str, None): 排序字段. Defaults to None.
         orders(str, None): 排序方式. Defaults to None.
-        
+
         keywordNew(str, None): 关键词. Defaults to None.
             - 商品编码，助记码，商品名称，通用名称，商品条码
         codes(str, None): 商品编码. Defaults to None.
@@ -467,14 +467,14 @@ async def goods_page_list(
         "client-tom": "Y",
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
-    
+
     payload = {
-        "current": current,  
-        "size": size,  
-        "keywordNew": keywordNew, 
+        "current": current,
+        "size": size,
+        "keywordNew": keywordNew,
         "sortCode": sortCode,
         "orders": orders,
-        "codes": codes,  
+        "codes": codes,
         "yaoudCodes": yaoudCodes,
         "commonName": commonName,
         "commonAbc": commonAbc,
@@ -623,7 +623,7 @@ async def goods_page_list(
         "productSecondTypes": productSecondTypes,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -651,8 +651,9 @@ async def goods_info(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def external_goods_page_list(
         authorization: str,
@@ -662,7 +663,7 @@ async def external_goods_page_list(
         keyword: Optional[str] = "",
         isEnabled: Optional[int] = None,
         isGetEnterpriseName: Optional[int] = 1,
-        ) -> dict:
+) -> dict:
     """
     企业级商品资料检索-简易
     Args:
@@ -697,14 +698,14 @@ async def external_goods_page_list(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def user_product_class_tree(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    dataType: str = "gr_product") -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        dataType: str = "gr_product") -> dict:
     """
     用户商品分类树
     Args:
@@ -725,7 +726,7 @@ async def user_product_class_tree(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -733,9 +734,10 @@ if __name__ == "__main__":
     import asyncio
     authorization = "Bearer new_c05d11d5-ceaf-4913-8ee7-0a3335205e83"
     tenant_id = 148
+
     async def main():
         data = await external_goods_page_list(
-            authorization=authorization, 
+            authorization=authorization,
             tenant_id=tenant_id,
             isEnabled=0,
         )

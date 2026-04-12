@@ -12,37 +12,37 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_pa
 
 
 base_url = f"{yaoud_env['url']}/cp/stockout"
-
+TTL = yaoud_env["timeout"]
 
 
 async def stockout_registration_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    createTimeStart: str = retrieve_past_date(1),
-    createTimeEnd: Optional[str] = get_current_date(),
-    submitTimeStart: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,
-    warehouseId: Optional[str] = None,
-    goodsIdList: Optional[List[str]] = None,
-    storeIds: Optional[List[str]] = None,
-    createIds: Optional[List[str]] = None,
-    isAllowBuy: Optional[int] = None,
-    purchaserId: Optional[str] = None,
-    stockoutNo: Optional[str] = None,
-    purchasePlanNo: Optional[str] = None,
-    submitUserName: Optional[str] = None,
-    productType: Optional[str] = None,
-    productSecondTypes: Optional[List[str]] = None,
-    stockoutType: Optional[int] = None,
-    customOne: Optional[str] = None,
-    customTwo: Optional[str] = None,
-    customThree: Optional[str] = None,
-    customSix: Optional[str] = None,
-    status: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        createTimeStart: str = retrieve_past_date(1),
+        createTimeEnd: Optional[str] = get_current_date(),
+        submitTimeStart: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,
+        warehouseId: Optional[str] = None,
+        goodsIdList: Optional[List[str]] = None,
+        storeIds: Optional[List[str]] = None,
+        createIds: Optional[List[str]] = None,
+        isAllowBuy: Optional[int] = None,
+        purchaserId: Optional[str] = None,
+        stockoutNo: Optional[str] = None,
+        purchasePlanNo: Optional[str] = None,
+        submitUserName: Optional[str] = None,
+        productType: Optional[str] = None,
+        productSecondTypes: Optional[List[str]] = None,
+        stockoutType: Optional[int] = None,
+        customOne: Optional[str] = None,
+        customTwo: Optional[str] = None,
+        customThree: Optional[str] = None,
+        customSix: Optional[str] = None,
+        status: Optional[str] = None,) -> dict:
     """
     缺货登记-按门店
     Args:
@@ -126,36 +126,36 @@ async def stockout_registration_list(
     async with AsyncClient() as client:
         response = await client.post(
             url, headers=headers,
-            json=payload,timeout=yaoud_env["timeout"])
+            json=payload, timeout=TTL)
     return response.json()
 
 
 async def stockout_registration_goods_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    createTimeStart: str = retrieve_past_date(1),
-    createTimeEnd: Optional[str] = get_current_date(),
-    submitTimeStart: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,
-    isAllowBuy: Optional[int] = None,
-    goodsIdList: Optional[List[str]] = None,
-    warehouseId: Optional[str] = None,
-    purchaserId: Optional[str] = None,
-    productType: Optional[str] = None,
-    productSecondTypes: Optional[List[str]] = None,
-    purchasePlanNo: Optional[str] = None,
-    stockoutNo: Optional[str] = None,
-    submitUserName: Optional[str] = None,
-    customOne: Optional[str] = None,
-    customTwo: Optional[str] = None,
-    customThree: Optional[str] = None,
-    customFour: Optional[str] = None,
-    customSix: Optional[str] = None,
-    status: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        createTimeStart: str = retrieve_past_date(1),
+        createTimeEnd: Optional[str] = get_current_date(),
+        submitTimeStart: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,
+        isAllowBuy: Optional[int] = None,
+        goodsIdList: Optional[List[str]] = None,
+        warehouseId: Optional[str] = None,
+        purchaserId: Optional[str] = None,
+        productType: Optional[str] = None,
+        productSecondTypes: Optional[List[str]] = None,
+        purchasePlanNo: Optional[str] = None,
+        stockoutNo: Optional[str] = None,
+        submitUserName: Optional[str] = None,
+        customOne: Optional[str] = None,
+        customTwo: Optional[str] = None,
+        customThree: Optional[str] = None,
+        customFour: Optional[str] = None,
+        customSix: Optional[str] = None,
+        status: Optional[str] = None,) -> dict:
     """
     缺货登记-按商品
     Args:
@@ -229,5 +229,5 @@ async def stockout_registration_goods_list(
     async with AsyncClient() as client:
         response = await client.post(
             url, headers=headers,
-            json=payload,timeout=yaoud_env["timeout"])
+            json=payload, timeout=TTL)
     return response.json()

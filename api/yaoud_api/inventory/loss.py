@@ -13,26 +13,27 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/inventory/loss"
+TTL = yaoud_env["timeout"]
 
 
 async def loss_overflow_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    documentNo: Optional[str] = None,
-    businessNo: Optional[str] = None,
-    createName: Optional[str] = None,
-    submitName: Optional[str] = None,
-    businessTypeList: Optional[List[str]] = None,
-    status: Optional[str] = None,
-    warehouseIds: Optional[List[str]] = None,
-    createTimeBegin: Optional[str] = None,
-    createTimeEnd: Optional[str] = None,
-    submitTimeBegin: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        documentNo: Optional[str] = None,
+        businessNo: Optional[str] = None,
+        createName: Optional[str] = None,
+        submitName: Optional[str] = None,
+        businessTypeList: Optional[List[str]] = None,
+        status: Optional[str] = None,
+        warehouseIds: Optional[List[str]] = None,
+        createTimeBegin: Optional[str] = None,
+        createTimeEnd: Optional[str] = None,
+        submitTimeBegin: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,) -> dict:
     """
     报损报溢-按单据
     Args:
@@ -107,33 +108,33 @@ async def loss_overflow_page(
         "takeEffectTimeEnd": takeEffectTimeEnd['end_time'] if takeEffectTimeEnd else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
 async def loss_overflow_detail(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    documentNo: Optional[str] = None,
-    keyword: Optional[str] = None,
-    batch: Optional[str] = None,
-    reason: Optional[str] = None,
-    createName: Optional[str] = None,
-    submitName: Optional[str] = None,
-    status: Optional[str] = None,
-    lossOrOverflow: Optional[str] = None,
-    businessTypeList: Optional[List[str]] = None,
-    warehouseIds: Optional[List[str]] = None,
-    regionIds: Optional[List[str]] = None,
-    purchaserIds: Optional[List[str]] = None,
-    createTimeBegin: Optional[str] = None,
-    createTimeEnd: Optional[str] = None,
-    submitTimeBegin: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        documentNo: Optional[str] = None,
+        keyword: Optional[str] = None,
+        batch: Optional[str] = None,
+        reason: Optional[str] = None,
+        createName: Optional[str] = None,
+        submitName: Optional[str] = None,
+        status: Optional[str] = None,
+        lossOrOverflow: Optional[str] = None,
+        businessTypeList: Optional[List[str]] = None,
+        warehouseIds: Optional[List[str]] = None,
+        regionIds: Optional[List[str]] = None,
+        purchaserIds: Optional[List[str]] = None,
+        createTimeBegin: Optional[str] = None,
+        createTimeEnd: Optional[str] = None,
+        submitTimeBegin: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,) -> dict:
     """
     报损报溢-按商品
     Args:
@@ -222,6 +223,5 @@ async def loss_overflow_detail(
         "takeEffectTimeEnd": takeEffectTimeEnd['end_time'] if takeEffectTimeEnd else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
-

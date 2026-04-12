@@ -10,6 +10,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/accountSetConfig"
+TTL = yaoud_env["timeout"]
 
 async def account_set_config_page(
     authorization: str,
@@ -39,6 +40,6 @@ async def account_set_config_page(
         "codeOrName": codeOrName,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 

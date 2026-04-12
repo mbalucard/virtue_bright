@@ -17,7 +17,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_pa
 
 
 base_url = f"{yaoud_env['url']}/cp/goods"
-
+TTL = yaoud_env["timeout"]
 
 async def purchase_order(
         authorization: str,
@@ -109,7 +109,7 @@ async def purchase_order(
         "businessNo": businessNo,  # 关联业务单号
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -137,7 +137,7 @@ async def purchase_order_details(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -234,7 +234,7 @@ async def purchase_product_goods_details(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -318,7 +318,7 @@ async def purchase_return_order(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -346,7 +346,7 @@ async def purchase_return_order_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -445,5 +445,5 @@ async def purchase_return_order_goods(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

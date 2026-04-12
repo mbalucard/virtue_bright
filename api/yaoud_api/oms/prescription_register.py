@@ -13,6 +13,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/oms/prescriptionRegister"
+TTL = yaoud_env["timeout"]
 
 
 async def prescription_register_page(
@@ -88,7 +89,6 @@ async def prescription_register_page(
     else:
         sales_end_time = None
 
-
     payload = {
         "current": current,
         "size": size,
@@ -110,33 +110,31 @@ async def prescription_register_page(
     }
 
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
-
-
 async def page_stats_prescription(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    groupByType: Optional[int] = None,
-    startTime: Optional[str] = None,
-    endTime: Optional[str] = get_current_date(),
-    sfFlag: Optional[str] = None,
-    storeIds: Optional[List[str]] = None,
-    startAuditNum: Optional[int] = None,
-    endAuditNum: Optional[int] = None,
-    startaverageNum: Optional[int] = None,
-    endaverageNum: Optional[int] = None,
-    startApprovedNum: Optional[int] = None,
-    endApprovedNum: Optional[int] = None,
-    startRefuseNum: Optional[int] = None,
-    endRefuseNum: Optional[int] = None,
-    startPrescriptionNum: Optional[int] = None,
-    endPrescriptionNum: Optional[int] = None,
-    auditIdList: Optional[List[str]] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        groupByType: Optional[int] = None,
+        startTime: Optional[str] = None,
+        endTime: Optional[str] = get_current_date(),
+        sfFlag: Optional[str] = None,
+        storeIds: Optional[List[str]] = None,
+        startAuditNum: Optional[int] = None,
+        endAuditNum: Optional[int] = None,
+        startaverageNum: Optional[int] = None,
+        endaverageNum: Optional[int] = None,
+        startApprovedNum: Optional[int] = None,
+        endApprovedNum: Optional[int] = None,
+        startRefuseNum: Optional[int] = None,
+        endRefuseNum: Optional[int] = None,
+        startPrescriptionNum: Optional[int] = None,
+        endPrescriptionNum: Optional[int] = None,
+        auditIdList: Optional[List[str]] = None,) -> dict:
     """
     获取处方汇总-按机构或药师汇总
     Args:
@@ -206,6 +204,5 @@ async def page_stats_prescription(
         "auditIdList": auditIdList,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
-    

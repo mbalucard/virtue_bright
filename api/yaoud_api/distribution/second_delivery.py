@@ -1,5 +1,6 @@
 """
 二次配送
+    - 二次配送单列表: second_delivery_list
 """
 
 from httpx import AsyncClient
@@ -9,7 +10,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_past_date
 
 base_url = f"{yaoud_env['url']}/distribution/secondDelivery"
-
+TTL = yaoud_env["timeout"]
 
 async def second_delivery_list(
     authorization: str,
@@ -84,5 +85,5 @@ async def second_delivery_list(
         "createEndTime": createEndTime,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

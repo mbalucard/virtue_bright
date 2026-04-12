@@ -15,6 +15,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/oms/afterSale"
+TTL = yaoud_env["timeout"]
 
 
 async def after_sale_page(
@@ -92,8 +93,9 @@ async def after_sale_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def get_after_sale_by_id(
         authorization: str,
@@ -118,8 +120,9 @@ async def get_after_sale_by_id(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def after_sale_refund(
         authorization: str,
@@ -197,7 +200,7 @@ async def after_sale_refund(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -224,6 +227,5 @@ async def after_sale_refund_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
-

@@ -19,7 +19,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/ehr/hrWarning"
-
+TTL = yaoud_env["timeout"]
 
 async def profession_warn_search_condition_fields(
     authorization: str,
@@ -40,7 +40,7 @@ async def profession_warn_search_condition_fields(
     }
     params = {"_t": timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -64,7 +64,7 @@ async def profession_warn_settings_fields(
     }
     params = {"_t":timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -104,7 +104,7 @@ async def profession_warn_page(
         "conditions": conditions,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
     
 
@@ -127,7 +127,7 @@ async def contract_warn_settings_fields(
     }
     params = {"_t":timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -150,7 +150,7 @@ async def contract_warn_search_condition_fields(
     }
     params = {"_t":timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -191,7 +191,7 @@ async def contract_warn_page(
         "conditions": conditions,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -214,7 +214,7 @@ async def qa_post_employee_change_search_condition_fields(
     }
     params = {"_t":timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -254,7 +254,7 @@ async def quality_post_employee_change_page(
         "conditions": conditions,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 if __name__ == "__main__":

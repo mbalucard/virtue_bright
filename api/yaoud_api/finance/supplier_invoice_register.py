@@ -11,7 +11,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/cwSupplierInvoiceRegister"
-
+TTL = yaoud_env["timeout"]
 
 async def supplier_invoice_register(
         authorization: str,
@@ -109,7 +109,7 @@ async def supplier_invoice_register(
         "updateTimeEnd": updateTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 async def supplier_invoice_register_detail(
@@ -137,6 +137,6 @@ async def supplier_invoice_register_detail(
     }
     payload = {}
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, params=params, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, params=params, timeout=TTL)
     return response.json()
 

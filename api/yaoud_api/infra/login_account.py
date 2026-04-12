@@ -11,6 +11,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/loginAccount"
+TTL = yaoud_env["timeout"]
 
 
 async def get_all_edition(authorization: str) -> dict:
@@ -29,8 +30,9 @@ async def get_all_edition(authorization: str) -> dict:
         "skipToken": "true",
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def home_page(authorization: str) -> dict:
     """
@@ -49,5 +51,5 @@ async def home_page(authorization: str) -> dict:
         "skipToken": "true",
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

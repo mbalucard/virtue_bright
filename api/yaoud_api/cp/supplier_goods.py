@@ -11,7 +11,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_pa
 
 
 base_url = f"{yaoud_env['url']}/cp/supplierGoods"
-
+TTL = yaoud_env["timeout"]
 
 async def supplier_goods_list(
     authorization: str,
@@ -68,5 +68,5 @@ async def supplier_goods_list(
     async with AsyncClient() as client:
         response = await client.get(
             url, headers=headers,
-            params=payload,timeout=yaoud_env["timeout"])
+            params=payload, timeout=TTL)
     return response.json()

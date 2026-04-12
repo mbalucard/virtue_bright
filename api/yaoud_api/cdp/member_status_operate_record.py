@@ -13,7 +13,7 @@ from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/memberStatusOperateRecord"
-
+TTL = yaoud_env["timeout"]
 
 async def member_freeze_list(
         authorization: str,
@@ -86,7 +86,7 @@ async def member_freeze_list(
         "unfreezeTimeEnd": unfreezeTimeEnd['end_time'] if unfreezeTimeEnd else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -159,5 +159,5 @@ async def member_cancel_list(
         "unfreezeTimeEnd": unfreezeTimeEnd['end_time'] if unfreezeTimeEnd else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

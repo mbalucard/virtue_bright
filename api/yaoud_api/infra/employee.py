@@ -2,6 +2,7 @@
 员工管理
     - 员工角色及系统可用角色列表-下拉检索用: employee_organ_post_list
     - 获取员工信息列表: employee_page
+    - 获取员工信息详情: employee_info
 """
 
 from httpx import AsyncClient
@@ -11,6 +12,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/employee"
+TTL = yaoud_env["timeout"]
 
 async def employee_organ_post_list(
         authorization: str,
@@ -41,7 +43,7 @@ async def employee_organ_post_list(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -161,7 +163,7 @@ async def employee_page(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -189,6 +191,6 @@ async def employee_info(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 

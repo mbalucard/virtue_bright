@@ -13,16 +13,18 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/ehr/hrQualityPost"
+TTL = yaoud_env["timeout"]
+
 
 async def quality_post_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 10,
-    keyword: Optional[str] = None,
-    enable: Optional[int] = None,
-    erpPostCodes: Optional[List[str]] = None,
-    professionTypes: Optional[List[str]] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 10,
+        keyword: Optional[str] = None,
+        enable: Optional[int] = None,
+        erpPostCodes: Optional[List[str]] = None,
+        professionTypes: Optional[List[str]] = None,) -> dict:
     """
     质量岗位列表
     Args:
@@ -56,13 +58,13 @@ async def quality_post_page(
         "professionTypes": professionTypes,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
 async def quality_post_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     质量岗位列表
     Args:
@@ -77,9 +79,9 @@ async def quality_post_list(
         "client-tom": "Y",
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
-    params = {"_t":timestamp()}
+    params = {"_t": timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 

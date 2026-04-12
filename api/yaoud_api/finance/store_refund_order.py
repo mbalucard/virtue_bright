@@ -10,34 +10,36 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/storeRefundOrder"
+TTL = yaoud_env["timeout"]
+
 
 async def store_payment_receipt_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    orderNo: Optional[str] = None,
-    remark: Optional[str] = None,
-    openingBank: Optional[str] = None,
-    bankAccount: Optional[str] = None,
-    refundBasedList: Optional[List[str]] = None,
-    status: Optional[str] = None,
-    regionIds: Optional[List[str]] = None,
-    storesIdList: Optional[List[str]] = None,
-    warehouseIdList: Optional[List[str]] = None,
-    storesTypeList: Optional[List[str]] = None,
-    refundTypeList: Optional[List[str]] = None,
-    refundModeList: Optional[List[str]] = None,
-    createIds: Optional[List[str]] = None,
-    updateIds: Optional[List[str]] = None,
-    createStartTime: Optional[str] = None,
-    createEndTime: Optional[str] = None,
-    finishAuditTimeStart: Optional[str] = None,
-    finishAuditTimeEnd: Optional[str] = None,
-    updateStartTime: Optional[str] = None,
-    updateEndTime: Optional[str] = None,
-    receiveDateBegin: Optional[str] = None,
-    receiveDateEnd: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        orderNo: Optional[str] = None,
+        remark: Optional[str] = None,
+        openingBank: Optional[str] = None,
+        bankAccount: Optional[str] = None,
+        refundBasedList: Optional[List[str]] = None,
+        status: Optional[str] = None,
+        regionIds: Optional[List[str]] = None,
+        storesIdList: Optional[List[str]] = None,
+        warehouseIdList: Optional[List[str]] = None,
+        storesTypeList: Optional[List[str]] = None,
+        refundTypeList: Optional[List[str]] = None,
+        refundModeList: Optional[List[str]] = None,
+        createIds: Optional[List[str]] = None,
+        updateIds: Optional[List[str]] = None,
+        createStartTime: Optional[str] = None,
+        createEndTime: Optional[str] = None,
+        finishAuditTimeStart: Optional[str] = None,
+        finishAuditTimeEnd: Optional[str] = None,
+        updateStartTime: Optional[str] = None,
+        updateEndTime: Optional[str] = None,
+        receiveDateBegin: Optional[str] = None,
+        receiveDateEnd: Optional[str] = None,) -> dict:
     """
     门店回款单列表
     #! 无数据，暂未完成测试。
@@ -106,7 +108,8 @@ async def store_payment_receipt_page(
         taday = get_current_date()
         createEndTime = get_date_start_and_end_time(taday)
     if finishAuditTimeStart:
-        finishAuditTimeStart = get_date_start_and_end_time(finishAuditTimeStart)
+        finishAuditTimeStart = get_date_start_and_end_time(
+            finishAuditTimeStart)
     if finishAuditTimeEnd:
         finishAuditTimeEnd = get_date_start_and_end_time(finishAuditTimeEnd)
     if updateStartTime:
@@ -141,5 +144,5 @@ async def store_payment_receipt_page(
         "receiveDateEnd": receiveDateEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

@@ -21,6 +21,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_pa
 
 
 base_url = f"{yaoud_env['url']}/inventory/iv"
+TTL = yaoud_env["timeout"]
 
 
 async def warehouse_receipt(
@@ -116,7 +117,7 @@ async def warehouse_receipt(
         "remark": remark  # 备注
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -144,7 +145,7 @@ async def warehouse_receipt_details(
         "id": id,  # 入库单ID
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -246,7 +247,7 @@ async def warehouse_receipt_goods(
         "remark": remark  # 备注
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -306,8 +307,9 @@ async def oms_stock_lock_list(
         "businessNo": businessNo,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
+
 
 async def batch_adjust_page(
         authorization: str,
@@ -361,7 +363,7 @@ async def batch_adjust_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -459,21 +461,21 @@ async def batch_adjust_detail_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def batch_no_inventory_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    documentNo: Optional[str] = None,
-    createName: Optional[str] = None,
-    createDateStart: Optional[str] = None,
-    createDateEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        documentNo: Optional[str] = None,
+        createName: Optional[str] = None,
+        createDateStart: Optional[str] = None,
+        createDateEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,) -> dict:
     """
     批号盘点-按单据
     Args:
@@ -512,28 +514,29 @@ async def batch_no_inventory_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def batch_no_inventory_detail(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    documentNo: Optional[str] = None,
-    createName: Optional[str] = None,
-    keyWords: Optional[str] = None,
-    batch: Optional[str] = None,
-    batchNo: Optional[str] = None,
-    batchSterilizationNo: Optional[str] = None,
-    warehouseIdList: Optional[List[str]] = None,
-    allocationId: Optional[int] = None,
-    createDateStart: Optional[str] = None,
-    createDateEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,
-    sterilizationExpireDateStart: Optional[str] = None,
-    sterilizationExpireDateEnd: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        documentNo: Optional[str] = None,
+        createName: Optional[str] = None,
+        keyWords: Optional[str] = None,
+        batch: Optional[str] = None,
+        batchNo: Optional[str] = None,
+        batchSterilizationNo: Optional[str] = None,
+        warehouseIdList: Optional[List[str]] = None,
+        allocationId: Optional[int] = None,
+        createDateStart: Optional[str] = None,
+        createDateEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,
+        sterilizationExpireDateStart: Optional[str] = None,
+        sterilizationExpireDateEnd: Optional[str] = None,) -> dict:
     """
     批号盘点-按商品
     Args:
@@ -592,25 +595,26 @@ async def batch_no_inventory_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def adjust_shelf_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    businessNo: Optional[str] = None,
-    moveNo: Optional[str] = None,
-    createName: Optional[str] = None,
-    submitName: Optional[str] = None,
-    warehouseId: Optional[int] = None,
-    createTimeStart: Optional[str] = None,
-    createTimeEnd: Optional[str] = None,
-    submitTimeBegin: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        businessNo: Optional[str] = None,
+        moveNo: Optional[str] = None,
+        createName: Optional[str] = None,
+        submitName: Optional[str] = None,
+        warehouseId: Optional[int] = None,
+        createTimeStart: Optional[str] = None,
+        createTimeEnd: Optional[str] = None,
+        submitTimeBegin: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,) -> dict:
     """
     货位调整-按单据
     Args:
@@ -663,23 +667,24 @@ async def adjust_shelf_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def adjust_shelf_detail(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    businessNo: Optional[str] = None,
-    moveNo: Optional[str] = None,
-    goodsCode: Optional[str] = None,
-    createName: Optional[str] = None,
-    warehouseId: Optional[int] = None,
-    createTimeStart: Optional[str] = None,
-    createTimeEnd: Optional[str] = None,
-    takeEffectTimeStart: Optional[str] = None,
-    takeEffectTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        businessNo: Optional[str] = None,
+        moveNo: Optional[str] = None,
+        goodsCode: Optional[str] = None,
+        createName: Optional[str] = None,
+        warehouseId: Optional[int] = None,
+        createTimeStart: Optional[str] = None,
+        createTimeEnd: Optional[str] = None,
+        takeEffectTimeStart: Optional[str] = None,
+        takeEffectTimeEnd: Optional[str] = None,) -> dict:
     """
     货位调整-按单据-明细
     Args:
@@ -722,9 +727,9 @@ async def adjust_shelf_detail(
         "createTimeEnd": createTimeEnd if createTimeEnd else get_current_date(),
         "takeEffectTimeStart": takeEffectTimeStart,
         "takeEffectTimeEnd": takeEffectTimeEnd,
-        "businessType":3,
+        "businessType": 3,
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

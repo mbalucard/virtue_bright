@@ -12,6 +12,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/member/bs"
+TTL = yaoud_env["timeout"]
 
 
 async def external_member_list(
@@ -45,5 +46,5 @@ async def external_member_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

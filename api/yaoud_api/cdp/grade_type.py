@@ -11,6 +11,7 @@ from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/gradeType"
+TTL = yaoud_env["timeout"]
 
 async def member_grade_type(
     authorization: str,
@@ -37,5 +38,5 @@ async def member_grade_type(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

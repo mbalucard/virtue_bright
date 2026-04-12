@@ -16,6 +16,8 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/inventory/goods"
+TTL = yaoud_env["timeout"]
+
 
 async def store_stock_sum_batch(
         authorization: str,
@@ -115,8 +117,9 @@ async def store_stock_sum_batch(
         "orderFields": order_fields
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
+
 
 async def warehouse_stock(
         authorization: str,
@@ -204,8 +207,9 @@ async def warehouse_stock(
         "warehouseList": warehouseList,  # 仓库ID列表
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
+
 
 async def warehouse_stock_overview(
         authorization: str,
@@ -288,28 +292,28 @@ async def warehouse_stock_overview(
         "warehouseList": warehouseList,  # 仓库ID列表
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
 async def pending_outbound(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    status: Optional[int] = None,
-    businessType: Optional[int] = None,
-    createId: int = None,
-    warehouseIds: Optional[List[str]] = None,
-    businessNo: Optional[str] = None,
-    sort: str = "asc",
-    sortField: str = "submit_time",
-    toWarehouseName: Optional[str] = None,
-    submitId: Optional[int] = None,
-    createStartTime: Optional[str] = None,
-    createEndTime: Optional[str] = None,
-    submitTimeBegin: Optional[str] = None,
-    submitTimeEnd: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        status: Optional[int] = None,
+        businessType: Optional[int] = None,
+        createId: int = None,
+        warehouseIds: Optional[List[str]] = None,
+        businessNo: Optional[str] = None,
+        sort: str = "asc",
+        sortField: str = "submit_time",
+        toWarehouseName: Optional[str] = None,
+        submitId: Optional[int] = None,
+        createStartTime: Optional[str] = None,
+        createEndTime: Optional[str] = None,
+        submitTimeBegin: Optional[str] = None,
+        submitTimeEnd: Optional[str] = None,) -> dict:
     """
     出库-待出库
     Args:
@@ -391,13 +395,14 @@ async def pending_outbound(
     if warehouseIds:
         params["warehouseIds"] = warehouseIds
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def out_bound_type(
-    authorization: str,
-    operateType: int,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        operateType: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     库存业务-业务类型查询-下拉检索用
     Args:
@@ -421,5 +426,5 @@ async def out_bound_type(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

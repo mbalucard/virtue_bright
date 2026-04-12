@@ -10,10 +10,12 @@ from httpx import AsyncClient
 from typing import Optional
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
+from api.yaoud_api.general_tools import get_date_start_and_end_time, timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/grade"
+TTL = yaoud_env["timeout"]
+
 
 async def get_grade_by_group_id(
         authorization: str,
@@ -46,15 +48,15 @@ async def get_grade_by_group_id(
         "_": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def member_grade_list(
-    authorization: str,
-    groupId: str,
-    gradeType: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        groupId: str,
+        gradeType: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     会员等级列表
     Args:
@@ -79,14 +81,14 @@ async def member_grade_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def member_grade_detail(
-    authorization: str,
-    id: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        id: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     会员等级详情
     Args:
@@ -108,7 +110,5 @@ async def member_grade_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
-    return response.json() 
-
-    
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
+    return response.json()

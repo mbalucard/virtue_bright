@@ -16,7 +16,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/ehr"
-
+TTL = yaoud_env["timeout"]
 
 async def knowledge_classification_tree(
         authorization: str,
@@ -41,7 +41,7 @@ async def knowledge_classification_tree(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -104,7 +104,7 @@ async def courseware_info_page(
         "endDate": endDate['end_time'] if endDate else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -163,7 +163,7 @@ async def question_bank_page(
         "endDate": endDate['end_time'] if endDate else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -242,7 +242,7 @@ async def task_page(
         "updateDateEnd": updateDateEnd['end_time'] if updateDateEnd else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -302,7 +302,7 @@ async def train_plan_page(
         "updateDateEnd": updateDateEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 if __name__ == "__main__":

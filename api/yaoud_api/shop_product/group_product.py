@@ -1,5 +1,7 @@
 """
 组合商品
+    - 零售价格组-组合商品管理: group_product_list
+    - 零售价格组-组合商品管理-详情: group_product_detail
 """
 
 from httpx import AsyncClient
@@ -10,6 +12,8 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/shopProduct/rlGroupProduct"
+TTL = yaoud_env["timeout"]
+
 
 async def group_product_list(
         authorization: str,
@@ -51,14 +55,14 @@ async def group_product_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def group_product_detail(
-    authorization: str,
-    id: int,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        id: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     零售价格组-组合商品管理-详情
     Args:
@@ -78,5 +82,5 @@ async def group_product_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

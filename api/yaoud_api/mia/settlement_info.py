@@ -18,6 +18,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/mia/settlementInfo"
+TTL = yaoud_env["timeout"]
 
 
 async def settlement_info(
@@ -165,7 +166,7 @@ async def settlement_info(
         "data_range": dataRange,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -243,7 +244,7 @@ async def settlement_info_details(
         "endTime": endTime["end_time"] if endTime else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -299,7 +300,7 @@ async def settlement_info_reconciliation(
         "endTime": endTime["end_time"] if endTime else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -344,7 +345,7 @@ async def settlement_info_liquidation(
         "startTime": startTime,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -408,7 +409,7 @@ async def mdtrt_cert_type_count(
         "endTime": endTime["end_time"] if endTime else None,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -479,7 +480,7 @@ async def settlement_info_report(
         "endTime": endTime if endTime else taday,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -517,5 +518,5 @@ async def report_list_by_user_type(
         "declareMon": declareMon,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

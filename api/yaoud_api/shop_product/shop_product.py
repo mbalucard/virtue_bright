@@ -1,6 +1,7 @@
 """
 店铺商品
     - 商品异常类型-枚举值: unusual_info_enum
+    - 店铺商品管理: shop_product_page
 """
 
 from httpx import AsyncClient
@@ -11,6 +12,8 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/shopProduct/rlShopProduct"
+TTL = yaoud_env["timeout"]
+
 
 async def unusual_info_enum(
         authorization: str,
@@ -34,7 +37,7 @@ async def unusual_info_enum(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -53,14 +56,14 @@ async def shop_product_page(
         isMaintainPrice: Optional[int] = None,
         isMedicalCustom: Optional[int] = None,
         isMedicare: Optional[int] = None,
-        codes:Optional[List[str]] = None,
+        codes: Optional[List[str]] = None,
         shopType: Optional[int] = None,
         shopId: Optional[int] = None,
         storeCode: Optional[str] = None,
         proPriceMin: Optional[int] = None,
         proPriceMax: Optional[int] = None,
         proStockMin: Optional[int] = None,
-        proStockMax: Optional[int] = None,)->dict:
+        proStockMax: Optional[int] = None,) -> dict:
     """
     店铺商品管理
     Args:
@@ -114,12 +117,12 @@ async def shop_product_page(
     params = {
         "current": current,
         "size": size,
-        "name": name,  #! 和 codes 参数功能一样，且还不能多选，这个参数还在用，难道是混绩效的么
+        "name": name,  # ! 和 codes 参数功能一样，且还不能多选，这个参数还在用，难道是混绩效的么
         "barcode": barcode,
         "producer": producer,
         "licenseNumber": licenseNumber,
         "proStatus": proStatus,
-        "unusual": unusual,  #! 光有异常，异常原因还没有，做东西做一半，哎。。。
+        "unusual": unusual,  # ! 光有异常，异常原因还没有，做东西做一半，哎。。。
         "isSpecialPrice": isSpecialPrice,
         "isMaintainPrice": isMaintainPrice,
         "isMedicalCustom": isMedicalCustom,
@@ -127,7 +130,7 @@ async def shop_product_page(
         "codes": codes,
         "shopType": shopType,
         "shopId": shopId,
-        "storeCode": storeCode,  #! 与 shopId 参数功能一样，且还不能和 shopType 联动使用，真不知道有啥用，还不从产线拿掉。
+        "storeCode": storeCode,  # ! 与 shopId 参数功能一样，且还不能和 shopType 联动使用，真不知道有啥用，还不从产线拿掉。
         "proPriceMin": proPriceMin,
         "proPriceMax": proPriceMax,
         "proStockMin": proStockMin,
@@ -135,6 +138,5 @@ async def shop_product_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
-

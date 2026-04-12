@@ -10,10 +10,12 @@ from httpx import AsyncClient
 from typing import Optional
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
+from api.yaoud_api.general_tools import get_date_start_and_end_time, timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/group"
+TTL = yaoud_env["timeout"]
+
 
 async def get_member_group_list(
         authorization: str,
@@ -36,16 +38,16 @@ async def get_member_group_list(
         "_": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def member_group_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    storeCode: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        storeCode: Optional[str] = None,) -> dict:
     """
     会员权益组列表
     Args:
@@ -70,14 +72,14 @@ async def member_group_list(
         "storeCode": storeCode,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
 async def member_group_details(
-    authorization: str,
-    id: int,
-    tenant_id: Optional[int] = None,)->dict:
+        authorization: str,
+        id: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     会员权益组详情
     Args:
@@ -99,5 +101,5 @@ async def member_group_details(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

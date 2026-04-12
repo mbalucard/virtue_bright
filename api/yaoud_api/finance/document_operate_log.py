@@ -13,6 +13,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/documentOperateLog"
+TTL = yaoud_env["timeout"]
 
 async def document_operate_log(
         authorization: str,
@@ -50,6 +51,6 @@ async def document_operate_log(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
 
     return response.json()

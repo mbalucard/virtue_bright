@@ -17,7 +17,7 @@ from api.yaoud_api.general_tools import timestamp, get_date_start_and_end_time, 
 
 
 base_url = f"{yaoud_env['url']}/bpm/wflow"
-
+TTL = yaoud_env["timeout"]
 
 async def instance_progress(
         authorization: str,
@@ -42,7 +42,7 @@ async def instance_progress(
     }
     params = {"_t": timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -71,7 +71,7 @@ async def wflow_init_show_field_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -94,7 +94,7 @@ async def wflow_task_navigation(
     }
     payload = {}
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -172,7 +172,7 @@ async def wflow_task_todo_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -264,7 +264,7 @@ async def wflow_task_ido_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -345,5 +345,5 @@ async def wflow_process_my_submitted(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

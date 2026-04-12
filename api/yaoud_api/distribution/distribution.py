@@ -13,7 +13,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/distribution/distribution"
-
+TTL = yaoud_env["timeout"]
 
 async def distribution_docs_detail(
         authorization: str,
@@ -37,7 +37,7 @@ async def distribution_docs_detail(
     }
 
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -109,7 +109,7 @@ async def distribution_plan_list(
     }
 
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -209,5 +209,5 @@ async def distribution_goods_list(
         "takeEffectTimeEnd": takeEffectTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

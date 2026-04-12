@@ -13,6 +13,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/ehr/self"
+TTL = yaoud_env["timeout"]
 
 async def manager_search_condition_fields(
     authorization: str,
@@ -34,7 +35,7 @@ async def manager_search_condition_fields(
     }
     params = {"_t":timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 async def manager_page_list(
@@ -116,7 +117,7 @@ async def manager_page_list(
         "entryDate":[entryDateStart, entryDateEnd if entryDateEnd else get_current_date()],
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 if __name__ == "__main__":

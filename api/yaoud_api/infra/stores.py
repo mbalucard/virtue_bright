@@ -16,7 +16,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/stores"
-
+TTL = yaoud_env["timeout"]
 
 async def shop_info_page(
         authorization: str,
@@ -69,7 +69,7 @@ async def shop_info_page(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -98,7 +98,7 @@ async def shop_info_detail(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 async def get_stores(
@@ -132,7 +132,7 @@ async def get_stores(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 async def select_stores(
@@ -156,7 +156,7 @@ async def select_stores(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 async def get_store_list(
@@ -184,7 +184,7 @@ async def get_store_list(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 async def store_region_tree(
@@ -208,7 +208,7 @@ async def store_region_tree(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -238,5 +238,5 @@ async def shift_param_list(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

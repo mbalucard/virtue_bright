@@ -12,6 +12,8 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/system"
+TTL = yaoud_env["timeout"]
+
 
 async def switch_owner_page(authorization: str) -> dict:
     """
@@ -29,7 +31,7 @@ async def switch_owner_page(authorization: str) -> dict:
         "skipToken": "true",
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -54,13 +56,14 @@ async def switch_organ(authorization: str, organ_id: int) -> dict:
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params)
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def get_enterprise_list(
     authorization: str,
     tenant_id: Optional[int] = None,
-)->dict:
+) -> dict:
     """
     获取企业列表
     Args:
@@ -77,7 +80,7 @@ async def get_enterprise_list(
     }
     params = {"_t": timestamp()}
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -85,6 +88,7 @@ if __name__ == "__main__":
     import asyncio
     authorization = "Bearer new_521d29cf-d5dd-450c-b2d0-9c05ebe77c50"
     tenant_id = 148
+
     async def main():
         data = await get_enterprise_list(authorization, tenant_id)
         print(data)

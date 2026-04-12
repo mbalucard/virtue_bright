@@ -3,6 +3,11 @@ from api.yaoud_api.aes_tool import aes_cfb_encrypt_base64
 from configs.api_configes import yaoud_env
 
 
+base_url = f"{yaoud_env['url']}/auth"
+
+TTL = yaoud_env["timeout"]
+
+
 async def log_in(username: str, password: str) -> dict:
     """
     登陆药德系统
@@ -14,7 +19,7 @@ async def log_in(username: str, password: str) -> dict:
     Returns:
         dict: 登陆成功返回的人员信息
     """
-    user_url = f"{yaoud_env['url']}/auth/oauth2/token"
+    url = f"{base_url}/oauth2/token"
     password_encrypted = aes_cfb_encrypt_base64(password)
     headers = {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -34,8 +39,8 @@ async def log_in(username: str, password: str) -> dict:
     }
     async with AsyncClient() as client:
         response = await client.post(
-            user_url, headers=headers,
-            params=params, data=payload,timeout=yaoud_env["timeout"])
+            url, headers=headers,
+            params=params, data=payload, timeout=TTL)
     return response.json()
 
 

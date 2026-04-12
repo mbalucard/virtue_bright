@@ -12,6 +12,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, retrieve_past_date
 
 base_url = f"{yaoud_env['url']}/distribution/goods"
+TTL = yaoud_env["timeout"]
 
 
 async def return_to_warehouse(
@@ -113,7 +114,7 @@ async def return_to_warehouse(
     if takeEffectTimeEnd:
         params["takeEffectTimeEnd"] = takeEffectTimeEnd
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -212,7 +213,7 @@ async def return_goodes_to_warehouse(
     if takeEffectTimeEnd:
         params["takeEffectTimeEnd"] = takeEffectTimeEnd
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -239,5 +240,5 @@ async def return_to_warehouse_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

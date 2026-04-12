@@ -11,10 +11,12 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/base"
+TTL = yaoud_env["timeout"]
+
 
 async def business_scope_tree_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     经营范围树-下拉检索用
     Args:
@@ -33,8 +35,9 @@ async def business_scope_tree_list(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
+
 
 async def production_scope_tree(
         authorization: str,
@@ -57,5 +60,5 @@ async def production_scope_tree(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

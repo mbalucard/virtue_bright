@@ -13,6 +13,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/oms/order"
+TTL = yaoud_env["timeout"]
 
 
 async def order_page(
@@ -125,7 +126,7 @@ async def order_page(
         "shippingAddressPhone": shippingAddressPhone,  # 收货人手机号
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -152,6 +153,5 @@ async def get_order_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
-

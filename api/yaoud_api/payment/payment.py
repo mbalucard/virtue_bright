@@ -15,10 +15,12 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/payment/payment"
+TTL = yaoud_env["timeout"]
+
 
 async def payment_method_query(
-    authorization: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     可用支付方式-下拉检索用
     Args:
@@ -37,12 +39,13 @@ async def payment_method_query(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def store_payment_method(
-    authorization: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     门店支付方式-下拉检索用
     #! 与payment_method_query查询内容一致，但此处返回为树状结构，且更详细
@@ -60,12 +63,13 @@ async def store_payment_method(
     }
     payload = {}
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
+
 async def payment_record_index(
-    authorization: str,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     支付状态-下拉检索用
     Args:
@@ -84,27 +88,28 @@ async def payment_record_index(
         "_t": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def payment_record_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    query_type: int = 1,
-    operationStartTime: Optional[str] = None,
-    operationEndTime: Optional[str] = None,
-    storeCode: Optional[str] = None,
-    orderId: Optional[str] = None,
-    documentNumber: Optional[str] = None,
-    shopType: Optional[str] = None,
-    memberPhone: Optional[str] = None,
-    methodCodes: Optional[List[str]] = None,
-    status: Optional[int] = None,
-    saleType: Optional[int] = None,
-    terminalType: Optional[int] = None,
-    cashierId: Optional[str] = None,) -> dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        query_type: int = 1,
+        operationStartTime: Optional[str] = None,
+        operationEndTime: Optional[str] = None,
+        storeCode: Optional[str] = None,
+        orderId: Optional[str] = None,
+        documentNumber: Optional[str] = None,
+        shopType: Optional[str] = None,
+        memberPhone: Optional[str] = None,
+        methodCodes: Optional[List[str]] = None,
+        status: Optional[int] = None,
+        saleType: Optional[int] = None,
+        terminalType: Optional[int] = None,
+        cashierId: Optional[str] = None,) -> dict:
     """
     零售收款单/退款单查询
     Args:
@@ -180,5 +185,5 @@ async def payment_record_page(
         "cashierId": cashierId,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

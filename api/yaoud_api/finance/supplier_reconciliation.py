@@ -10,27 +10,29 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/cwSupplierReconciliation"
+TTL = yaoud_env["timeout"]
+
 
 async def supplier_reconciliation_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    orderNo: Optional[str] = None,
-    remark: Optional[str] = None,
-    orgIdList: Optional[List[str]] = None,
-    orderAttributeList: Optional[List[str]] = None,
-    orderStatus: Optional[str] = None,
-    supplierIdList: Optional[List[str]] = None,
-    supplierDeptIdList: Optional[List[str]] = None,
-    createIdList: Optional[List[str]] = None,
-    updateIdList: Optional[List[str]] = None,
-    createTimeBegin: Optional[str] = None,
-    createTimeEnd: Optional[str] = None,
-    auditTimeBegin: Optional[str] = None,
-    auditTimeEnd: Optional[str] = None,
-    updateTimeBegin: Optional[str] = None,
-    updateTimeEnd: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        orderNo: Optional[str] = None,
+        remark: Optional[str] = None,
+        orgIdList: Optional[List[str]] = None,
+        orderAttributeList: Optional[List[str]] = None,
+        orderStatus: Optional[str] = None,
+        supplierIdList: Optional[List[str]] = None,
+        supplierDeptIdList: Optional[List[str]] = None,
+        createIdList: Optional[List[str]] = None,
+        updateIdList: Optional[List[str]] = None,
+        createTimeBegin: Optional[str] = None,
+        createTimeEnd: Optional[str] = None,
+        auditTimeBegin: Optional[str] = None,
+        auditTimeEnd: Optional[str] = None,
+        updateTimeBegin: Optional[str] = None,
+        updateTimeEnd: Optional[str] = None,) -> dict:
     """
     供应商对账单列表
     #! 无数据，暂未完成测试。
@@ -98,6 +100,5 @@ async def supplier_reconciliation_page(
         "updateTimeEnd": updateTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
-

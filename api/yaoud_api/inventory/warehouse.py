@@ -23,6 +23,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/inventory/warehouse"
+TTL = yaoud_env["timeout"]
 
 
 async def warehouse_allocation_list(
@@ -49,7 +50,7 @@ async def warehouse_allocation_list(
         "warehouseIdList": warehouseIdList,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -78,7 +79,7 @@ async def warehouse_location_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -107,7 +108,7 @@ async def select_warehouse(
     }
 
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -132,7 +133,7 @@ async def select_store_warehouse(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -160,7 +161,7 @@ async def get_store_warehouse_list_by_enterprise_id(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -188,7 +189,7 @@ async def ent_store_warehouse_query(
         "objectType": objectType,
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -213,14 +214,14 @@ async def location_control_warehouse_stores(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
 async def warehouse_cabinet_list(
-    authorization: str,
-    warehouseIdList: List[str],
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        warehouseIdList: List[str],
+        tenant_id: Optional[int] = None,) -> dict:
     """
     门店柜组查询-下拉检索
     Args:
@@ -241,13 +242,14 @@ async def warehouse_cabinet_list(
         "warehouseIdList": warehouseIdList,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
+
 async def warehouse_area_list(
-    authorization: str,
-    warehouseIdList: List[str],
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        warehouseIdList: List[str],
+        tenant_id: Optional[int] = None,) -> dict:
     """
     库区查询-下拉检索
     Args:
@@ -268,12 +270,13 @@ async def warehouse_area_list(
         "warehouseIdList": warehouseIdList,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
+
 async def synergys_warehouse_info(
-    authorization: str,
-    tenant_id: Optional[int] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     协同仓库信息-下拉检索
     Args:
@@ -290,17 +293,17 @@ async def synergys_warehouse_info(
     }
     payload = {}
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
 async def warehouse_info_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 20,
-    keyWord: Optional[str] = None,
-    status: Optional[int] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        keyWord: Optional[str] = None,
+        status: Optional[int] = None,) -> dict:
     """
     仓库管理-仓库-列表
     Args:
@@ -328,13 +331,14 @@ async def warehouse_info_page(
         "status": status,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
+
 async def warehouse_info_detail(
-    authorization: str,
-    id: int,
-    tenant_id: Optional[int] = None,)->dict:
+        authorization: str,
+        id: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     仓库管理-仓库-详情
     Args:
@@ -355,6 +359,5 @@ async def warehouse_info_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
-

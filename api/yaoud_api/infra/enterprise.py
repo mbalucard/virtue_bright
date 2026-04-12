@@ -11,15 +11,17 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/enterprise"
+TTL = yaoud_env["timeout"]
+
 
 async def enterprise_page(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 100,
-    withParam: Optional[str] = None,
-    shopStatus: Optional[int] = None,
-    goodTypeList: Optional[List[str]] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 100,
+        withParam: Optional[str] = None,
+        shopStatus: Optional[int] = None,
+        goodTypeList: Optional[List[str]] = None,) -> dict:
     """
     企业管理-企业列表
     Args:
@@ -50,13 +52,14 @@ async def enterprise_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
+
 async def enterprise_detail(
-    authorization: str,
-    id: int,
-    tenant_id: Optional[int] = None,) -> dict:
+        authorization: str,
+        id: int,
+        tenant_id: Optional[int] = None,) -> dict:
     """
     企业管理-企业详情
     Args:
@@ -78,5 +81,5 @@ async def enterprise_detail(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

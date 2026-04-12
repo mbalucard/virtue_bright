@@ -1,5 +1,6 @@
 """
 会员积分规则
+    - 会员资产设置-积分规则: points_rule
 """
 
 from httpx import AsyncClient
@@ -10,7 +11,7 @@ from api.yaoud_api.general_tools import get_date_start_and_end_time, timestamp
 
 
 base_url = f"{yaoud_env['url']}/cdp/pointsRule"
-
+TTL = yaoud_env["timeout"]
 
 async def points_rule(
         authorization: str,
@@ -37,5 +38,5 @@ async def points_rule(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()

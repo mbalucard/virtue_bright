@@ -17,7 +17,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/distribution/dsDeliveryPrice"
-
+TTL = yaoud_env["timeout"]
 
 async def ds_delivery_price(
         authorization: str,
@@ -81,7 +81,7 @@ async def ds_delivery_price(
     }
 
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -106,7 +106,7 @@ async def ds_delivery_price_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -135,7 +135,7 @@ async def ds_delivery_price_store(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -159,7 +159,7 @@ async def ds_delivery_price_detail(
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, timeout=TTL)
     return response.json()
 
 
@@ -198,7 +198,7 @@ async def ds_delivery_adjust_goods(
         "goodsIds": goodsIds,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -254,7 +254,7 @@ async def ds_delivery_adjust_page(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 
@@ -278,7 +278,7 @@ async def ds_delivery_adjust_detail(
         "tenant-id": str(tenant_id) if tenant_id else "",
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, timeout=TTL)
     return response.json()
 
 
@@ -354,6 +354,6 @@ async def ds_delivery_adjust_goods(
         params["afterIncreaseMethod"] = afterIncreaseMethod
 
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 

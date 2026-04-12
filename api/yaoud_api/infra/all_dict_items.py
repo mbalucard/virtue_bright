@@ -12,11 +12,13 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/infra/dict"
+TTL = yaoud_env["timeout"]
+
 
 async def all_dict_items(
     authorization: str,
     tenant_id: Optional[int] = None,
-)->dict:
+) -> dict:
     """
     所有字典项
     Args:
@@ -35,7 +37,7 @@ async def all_dict_items(
         "_": timestamp()
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
 
 if __name__ == "__main__":

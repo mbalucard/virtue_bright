@@ -14,6 +14,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 
 base_url = f"{yaoud_env['url']}/mia"
+TTL = yaoud_env["timeout"]
 
 
 async def settlement_info_liquidation_detail(
@@ -51,7 +52,7 @@ async def settlement_info_liquidation_detail(
         "setlym": setlym,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -96,7 +97,7 @@ async def daily_reconciliation_stat(
         "stmtDateEnd": stmtDateEnd if stmtDateEnd else taday,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -144,5 +145,5 @@ async def interface_parameter(
         "parameterStatus": parameterStatus,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

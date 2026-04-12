@@ -14,7 +14,7 @@ from configs.api_configes import yaoud_env
 from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/inventory/inventory"
-
+TTL = yaoud_env["timeout"]
 
 async def inventory_plan_list(
         authorization: str,
@@ -83,7 +83,7 @@ async def inventory_plan_list(
         "takeEffectTimeEnd": takeEffectTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 
@@ -162,7 +162,7 @@ async def inventory_taking_list(
         "submitTimeEnd": submitTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 async def inventory_taking_dtl_list(
@@ -266,7 +266,7 @@ async def inventory_taking_dtl_list(
         "submitTimeEnd": submitTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
 
 async def inventory_profit_loss_list(
@@ -377,5 +377,5 @@ async def inventory_profit_loss_list(
         "inventoryTimeEnd": inventoryTimeEnd,
     }
     async with AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=payload, timeout=yaoud_env["timeout"])
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()

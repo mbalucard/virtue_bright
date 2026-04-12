@@ -12,7 +12,7 @@ from api.yaoud_api.general_tools import timestamp
 
 
 base_url = f"{yaoud_env['url']}/bi/report"
-
+TTL = yaoud_env["timeout"]
 
 async def warehouse_info_list(
     authorization: str,
@@ -46,5 +46,5 @@ async def warehouse_info_list(
         "_t": timestamp(),
     }
     async with AsyncClient() as client:
-        response = await client.get(url, headers=headers, params=params, timeout=yaoud_env["timeout"])
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
     return response.json()
