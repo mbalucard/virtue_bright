@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 from api.yaoud_api.aes_tool import aes_cfb_encrypt_base64
-from configs.yaoud import yaoud_env
+from configs.api_configes import yaoud_env
 
 
 async def log_in(username: str, password: str) -> dict:

@@ -2,6 +2,7 @@ import time
 import datetime
 from utils.logger_manager import LoggerManager
 
+logger = LoggerManager.get_logger(name=__name__)
 
 def timestamp():
     """
