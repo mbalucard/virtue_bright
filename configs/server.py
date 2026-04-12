@@ -11,7 +11,7 @@ class DockerPostgreSQL:
     user = os.getenv('DockerPostgreSQLUser')
     password = os.getenv('DockerPostgreSQLPassword')
     host = os.getenv('DockerPostgreSQLHost')
-    database = 'user_data'
+    database = os.getenv('DockerPostgreSQLDatabase')
 
 
 class RedisServer:
