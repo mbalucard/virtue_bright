@@ -8,6 +8,7 @@
     - 提成方案-列表: commission_config_page
     - 手动计算任务列表: hand_do_work_list
     - 计算日志-目标激励: plan_motivation_conpute_log
+    - 计算日志-销售提成: commission_compute_query_commission_calc_log
 """
 
 
@@ -20,6 +21,7 @@ from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_st
 
 base_url = f"{yaoud_env['url']}/commission"
 TTL = yaoud_env["timeout"]
+
 
 async def plan_h_list(
         authorization: str,
@@ -307,11 +309,11 @@ async def commission_config_page(
 
 
 async def hand_do_work_list(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 10,
-    keyword: Optional[str] = None,)->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 10,
+        keyword: Optional[str] = None,) -> dict:
     """
     手动计算任务列表
     Args:
@@ -341,16 +343,16 @@ async def hand_do_work_list(
 
 
 async def plan_motivation_conpute_log(
-    authorization: str,
-    tenant_id: Optional[int] = None,
-    current: int = 1,
-    size: int = 10,
-    calcStatus: Optional[str] = None,
-    calcType: Optional[str] = None,
-    recalcTaskIds: Optional[List[str]] = None,
-    planName: Optional[str] = None,
-    calcDateBegin: Optional[str] = None,
-    calcDateEnd: Optional[str] = None, )->dict:
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 10,
+        calcStatus: Optional[str] = None,
+        calcType: Optional[str] = None,
+        recalcTaskIds: Optional[List[str]] = None,
+        planName: Optional[str] = None,
+        calcDateBegin: Optional[str] = None,
+        calcDateEnd: Optional[str] = None, ) -> dict:
     """
     计算日志-目标激励
     Args:
@@ -396,17 +398,72 @@ async def plan_motivation_conpute_log(
     return response.json()
 
 
+async def commission_compute_query_commission_calc_log(
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 10,
+        calcStatus: Optional[str] = None,
+        calcType: Optional[str] = None,
+        recalcTaskIds: Optional[List[str]] = None,
+        orderNo: Optional[str] = None,
+        calcDateBegin: Optional[str] = None,
+        calcDateEnd: Optional[str] = None,) -> dict:
+    """
+    计算日志-销售提成
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+        current (int): 当前页. Defaults to 1.
+        size (int): 每页条目数. Defaults to 10.
+        calcStatus (str, None): 计算状态. Defaults to None.
+            - 1:计算成功 2:计算失败
+        calcType (str, None): 计算类型. Defaults to None.
+            - 1:手动计算 2:自动计算 0:全部
+        recalcTaskIds (List[str], None): 手动计算任务ID. Defaults to None.
+            - 可在 hand_do_work_list 中获取 对应字段planId
+            - #! 该餐所选择后无法查询到数据，疑似无效参数
+        orderNo (str, None): 单号. Defaults to None.
+            - 单号 type:str
+        calcDateBegin (str, None): 计算时间区间-开始. Defaults to None.
+            - 格式:yyyy-MM-dd
+        calcDateEnd (str, None): 计算时间区间-结束. Defaults to None.
+            - 格式:yyyy-MM-dd
+    Returns:
+        dict: 计算日志-销售提成
+    """
+    url = f"{base_url}/commission/compute/queryCommissionCalcLog"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    payload = {
+        "current": current,
+        "size": size,
+        "calcStatus": calcStatus,
+        "calcType": calcType,
+        "recalcTaskIds": recalcTaskIds,
+        "orderNo": orderNo,
+        "calcDateBegin": calcDateBegin,
+        "calcDateEnd": calcDateEnd,
+    }
+    async with AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
+    return response.json()
+
 
 if __name__ == "__main__":
     import asyncio
 
-    authorization = "Bearer new_c05d11d5-ceaf-4913-8ee7-0a3335205e83"
+    authorization = "Bearer new_e989f1a7-81ea-453e-b282-f0e79a3494af"
     tenant_id = 148
 
     async def main():
-        data = await plan_motivation_conpute_log(
+        data = await commission_compute_query_commission_calc_log(
             authorization=authorization,
-            tenant_id=tenant_id
+            tenant_id=tenant_id,
+            orderNo="SH26041000274968"
         )
         print(data)
     asyncio.run(main())

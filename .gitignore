@@ -15,5 +15,6 @@ logfile/
 
 # other files
 note/
+test/
 .DS_Store
 .env
