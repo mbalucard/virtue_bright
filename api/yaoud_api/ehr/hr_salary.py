@@ -6,6 +6,10 @@
     - 薪资项-详情: salary_item_detail
     - 算薪表模版-列表: salary_cal_template_page
     - 算薪表模版-详情: salary_cal_template_detail
+    - 薪资档案设置字段: salary_archive_list_settings_fields
+    - 薪资档案检索字段: salary_archive_search_condition_fields
+    - 薪资档案-列表: salary_archive_page
+    - 算薪表-列表: salary_cal_table_page
 """
 
 
@@ -77,6 +81,7 @@ async def salary_const_page(
     async with AsyncClient() as client:
         response = await client.post(url, headers=headers, json=payload, timeout=TTL)
     return response.json()
+
 
 async def salary_const_detail(
         authorization: str,
@@ -238,15 +243,93 @@ async def salary_cal_template_detail(
     return response.json()
 
 
+async def salary_archive_list_settings_fields(
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
+    """
+    薪资档案设置字段
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+    Returns:
+        dict: 薪资档案设置字段
+    """
+    url = f"{base_url}Archive/listSettingsFields"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "_t": timestamp(),
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
+    return response.json()
+
+
+async def salary_archive_search_condition_fields(
+        authorization: str,
+        tenant_id: Optional[int] = None,) -> dict:
+    """
+    薪资档案检索字段
+    """
+    url = f"{base_url}Archive/searchConditionFields"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    params = {
+        "_t": timestamp(),
+    }
+    async with AsyncClient() as client:
+        response = await client.get(url, headers=headers, params=params, timeout=TTL)
+    return response.json()
+
+
+async def salary_archive_page(
+        authorization: str,
+        tenant_id: Optional[int] = None,
+        current: int = 1,
+        size: int = 20,
+        conditions: Optional[List[dict]] = None,) -> dict:
+    """
+    薪资档案-列表
+    Args:
+        authorization (str): 认证信息
+        tenant_id (int, None): 租户ID. Defaults to None.
+        current (int): 当前页. Defaults to 1.
+        size (int): 每页条目数. Defaults to 20.
+        conditions (List[dict], None): 检索条件. Defaults to None.
+            - 可在 salary_archive_search_condition_fields 中获取薪资档案检索信息
+            - 样例: [{"field":"name","rule":"like","value":"张三"}]
+            - field: 对应field字段 rule: 对应expression字段 
+    """
+    url = f"{base_url}Archive/pageList"
+    headers = {
+        "Authorization": authorization,
+        "client-tom": "Y",
+        "tenant-id": str(tenant_id) if tenant_id else "",
+    }
+    payload = {
+        "current": current,
+        "size": size,
+        "conditions": conditions,
+    }
+    async with AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=payload, timeout=TTL)
+    return response.json()
+
+
 if __name__ == "__main__":
     import asyncio
     authorization = "Bearer new_ea5e2854-a277-4c90-9eb1-6b9bb50a7a40"
     tenant_id = 148
 
     async def main():
-        data = await salary_const_detail(
+        data = await salary_archive_page(
             authorization,
-            id=1,
             tenant_id=tenant_id)
         print(data)
     asyncio.run(main())
