@@ -21,10 +21,17 @@ deming_env = {
     "timeout": 20,
 }
 
+qy_env = {
+    "base_url": os.getenv("QYAPI_BASE_URL"),
+    "corp_id": os.getenv("QYAPI_CORP_ID"),
+    "secret": os.getenv("QYAPI_SECRET"),
+    "enterprise_id": os.getenv("QYAPI_ENTERPRISE_ID"),
+    "agent_id": os.getenv("QYAPI_AGENT_ID"),
+    "ttl": int(os.getenv("QYAPI_TTL")),
+}
 
 yaoud_env = deming_env
 
 
-
 if __name__ == "__main__":
-    print(yaoud_env)
+    print(qy_env)
