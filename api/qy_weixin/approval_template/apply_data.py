@@ -8,11 +8,11 @@ from api.qy_weixin.http_api.general_tools import get_second
 
 
 async def leave_apply_data(
-    access_token: str,
-    leave_type: int,
-    begin_time: str,
-    close_time: str,
-    reason_leave: str,):
+        access_token: str,
+        leave_type: int,
+        begin_time: str,
+        close_time: str,
+        reason_leave: str,):
     """
     请假申请数据模版
     Args:
