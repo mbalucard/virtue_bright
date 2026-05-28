@@ -73,7 +73,11 @@ async def get_authorization(username: str, password: str) -> dict:
 
 if __name__ == "__main__":
     import asyncio
-    # res = asyncio.run(log_in("18991373511", "Mb19860221"))
-    # print(res)
-    auth = asyncio.run(get_authorization("13396129397", "xl6688"))
-    print("auth:", auth)
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    res = asyncio.run(log_in(os.getenv("USER_DEMO_USERNAME"), os.getenv("USER_DEMO_PASSWORD")))
+    print(res)
+    # auth = asyncio.run(get_authorization("13396129397", "xl6688"))
+    print("auth:", res)

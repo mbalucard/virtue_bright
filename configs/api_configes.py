@@ -9,6 +9,12 @@ yaoud_envs = {
 }
 
 
+deming_uat_env = {
+    "url": os.getenv("DEMING_UAT_URL"),
+    "public_key": os.getenv("DEMING_PUBLIC_KEY"),
+    "timeout": 20,
+}
+
 deming_env = {
     "url": os.getenv("DEMING_URL"),
     "public_key": os.getenv("DEMING_PUBLIC_KEY"),
@@ -16,7 +22,7 @@ deming_env = {
 }
 
 
-yaoud_env = yaoud_envs
+yaoud_env = deming_env
 
 
 
