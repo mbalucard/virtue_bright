@@ -5,7 +5,7 @@
     - 获取部门列表 department_list
 """
 
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 
 base_url = f"{qy_env['base_url']}/department"

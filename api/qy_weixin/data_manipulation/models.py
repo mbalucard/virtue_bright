@@ -7,8 +7,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 def _dt_iso(v: datetime | None) -> str | None:
-    """时间戳转 ISO 格式"""
-    return v.isoformat() if v else None
+    """时间戳转 yyyy-mm-dd hh:mm:ss 格式"""
+    return v.strftime("%Y-%m-%d %H:%M:%S") if v else None
 
 
 class Base(DeclarativeBase):
@@ -59,6 +59,9 @@ class QyWeixinCalendar(Base):
             "last_updated_time": _dt_iso(self.last_updated_time),
         }
 
+    def __repr__(self) -> str:
+        return f"QyWeixinCalendar(cal_id={self.cal_id}, summary={self.summary}, description={self.description}, is_public={self.is_public}, is_corp_calendar={self.is_corp_calendar}, admin={self.admin}, is_delete={self.is_delete}, create_time={_dt_iso(self.create_time)}, last_updated_time={_dt_iso(self.last_updated_time)})"
+
 
 class QyWeixinDepartment(Base):
     """企业微信部门表"""
@@ -96,6 +99,9 @@ class QyWeixinDepartment(Base):
             "create_time": _dt_iso(self.create_time),
             "last_updated_time": _dt_iso(self.last_updated_time),
         }
+
+    def __repr__(self) -> str:
+        return f"QyWeixinDepartment(id={self.id}, name={self.name}, parentid={self.parentid}, order={self.order}, department_leader={self.department_leader}, is_delete={self.is_delete}, create_time={_dt_iso(self.create_time)}, last_updated_time={_dt_iso(self.last_updated_time)})"
 
 
 class QyWeixinUser(Base):
@@ -156,6 +162,9 @@ class QyWeixinUser(Base):
             "last_updated_time": _dt_iso(self.last_updated_time),
         }
 
+    def __repr__(self) -> str:
+        return f"QyWeixinUser(userid={self.userid}, name={self.name}, position={self.position}, status={self.status}, enable={self.enable}, isleader={self.isleader}, hide_mobile={self.hide_mobile}, telephone={self.telephone}, main_department={self.main_department}, alias={self.alias}, external_position={self.external_position}, direct_leader={self.direct_leader}, is_delete={self.is_delete}, create_time={_dt_iso(self.create_time)}, last_updated_time={_dt_iso(self.last_updated_time)})"
+
 
 class QyWeixinUserDepartment(Base):
     """企业微信用户-部门关系表"""
@@ -192,12 +201,5 @@ class QyWeixinUserDepartment(Base):
             "last_updated_time": _dt_iso(self.last_updated_time),
         }
 
-
-# class UserTest(Base):
-#     __tablename__ = "user_test"
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(50), nullable=False)
-#     email = Column(String(100), unique=True, nullable=True)
-
-#     def __repr__(self):
-#         return f"<User(id={self.id}, name={self.name}, email={self.email})>"
+    def __repr__(self) -> str:
+        return f"QyWeixinUserDepartment(userid={self.userid}, department_id={self.department_id}, is_leader_in_dept={self.is_leader_in_dept}, is_delete={self.is_delete}, create_time={_dt_iso(self.create_time)}, last_updated_time={_dt_iso(self.last_updated_time)})"

@@ -9,8 +9,8 @@
 from api.qy_weixin.http_api.oa import get_calendar, del_calendar, add_calendar, update_calendar
 from api.qy_weixin.http_api.access_token import get_access_token
 
-from tools.async_db_connection import AsyncCallSQL
-from config.server import DockerPostgreSQL
+from utils.async_db_connection import AsyncCallSQL
+from configs.server import DockerPostgreSQL
 
 import pandas as pd
 from typing import Optional

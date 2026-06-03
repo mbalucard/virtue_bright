@@ -8,7 +8,7 @@
     - 将邮箱转换为用户ID userid_by_email
 """
 
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional
 

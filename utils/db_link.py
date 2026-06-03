@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine,delete
 from sqlalchemy.orm import sessionmaker
 
 
@@ -49,6 +49,16 @@ class db_server:
     def get_engine(self):
         """获取数据库引擎"""
         return self.engine
+
+    def delete_data(self, table_name: str):
+        """删除数据表"""
+        db = self.get_db()
+        try:
+            db.execute(delete(table_name))
+            db.commit()
+            return True
+        finally:
+            db.close()
 
 
 if __name__ == "__main__":

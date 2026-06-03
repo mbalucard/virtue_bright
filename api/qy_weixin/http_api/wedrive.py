@@ -3,7 +3,7 @@
     - 创建空间 space_create
     - 解散空间 space_dismiss
 """
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional
 

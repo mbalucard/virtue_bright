@@ -9,7 +9,7 @@ OA接口
     - 提交审批申请 applyevent
 """
 
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional, List
 

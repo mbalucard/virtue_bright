@@ -9,7 +9,7 @@
 """
 
 from api.qy_weixin.http_api.general_tools import timestamp, get_current_date, get_second
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional, List
 

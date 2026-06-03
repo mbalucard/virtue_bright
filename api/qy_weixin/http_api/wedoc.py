@@ -3,7 +3,7 @@
     - 新建文档 create_doc
 """
 
-from config.request_config import qy_env
+from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional
 
