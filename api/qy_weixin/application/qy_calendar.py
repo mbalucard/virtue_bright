@@ -13,7 +13,7 @@ from utils.async_db_connection import AsyncCallSQL
 from configs.server import DockerPostgreSQL
 
 import pandas as pd
-from typing import Optional
+from typing import Optional, List
 
 db = AsyncCallSQL(DockerPostgreSQL)
 

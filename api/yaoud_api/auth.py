@@ -76,8 +76,11 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
     load_dotenv()
-    
-    res = asyncio.run(log_in(os.getenv("USER_DEMO_USERNAME"), os.getenv("USER_DEMO_PASSWORD")))
-    print(res)
-    # auth = asyncio.run(get_authorization("13396129397", "xl6688"))
-    print("auth:", res)
+    username = os.getenv("USER_DEMO_USERNAME")
+    password = os.getenv("USER_DEMO_PASSWORD")
+
+    # res = asyncio.run(log_in(username, password))
+    # print(res)
+
+    auth = asyncio.run(get_authorization(username, password))
+    print("auth:", auth)

@@ -180,9 +180,9 @@ if __name__ == "__main__":
     email = "panxusheng@demingjiankang.cn"
 
     async def main():
-        data = await userid_by_email(
+        data = await get_user_info(
             access_token=access_token,
-            email=email,
+            userid=userid,
         )
         print(data)
 
