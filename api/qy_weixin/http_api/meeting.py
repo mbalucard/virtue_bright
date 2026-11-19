@@ -8,7 +8,7 @@
     - 更新会议 update_meeting
 """
 
-from api.qy_weixin.http_api.general_tools import timestamp, get_current_date, get_second
+from utils.general_tools import get_second
 from configs.api_configes import qy_env
 from httpx import AsyncClient
 from typing import Optional, List

@@ -3,13 +3,14 @@
     - 可用门店信息-下拉检索用-已启用: available_institutions_list
     - 门店信息-下拉检索用-全部门店: common_organ_of_login_page_of_status
     - 按医保查询门店-下拉检索用: medical_insurance_ent
+    - 获取门店信息-ehr下拉检索用: get_mi_page
 """
 
 from httpx import AsyncClient
 from typing import Optional, List
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
+from utils.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/infra/shopinfo"
 TTL = yaoud_env["timeout"]

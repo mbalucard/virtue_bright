@@ -13,7 +13,7 @@ from httpx import AsyncClient
 from typing import Optional
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import timestamp, get_date_start_and_end_time, get_current_date,retrieve_past_date
+from utils.general_tools import timestamp, get_date_start_and_end_time, get_current_date,retrieve_past_date
 
 
 base_url = f"{yaoud_env['url']}/bpm/wflow"

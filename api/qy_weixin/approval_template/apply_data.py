@@ -4,7 +4,7 @@
 """
 
 from api.qy_weixin.http_api.oa import approval_template_detail
-from api.qy_weixin.http_api.general_tools import get_second
+from utils.general_tools import get_second
 
 
 async def leave_apply_data(

@@ -8,7 +8,7 @@ from httpx import AsyncClient
 from typing import Optional
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import get_date_start_and_end_time,timestamp
+from utils.general_tools import get_date_start_and_end_time,timestamp
 
 
 

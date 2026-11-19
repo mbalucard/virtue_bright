@@ -10,7 +10,7 @@ from httpx import AsyncClient
 from typing import Optional, List
 
 from configs.api_configes import yaoud_env
-from api.yaoud_api.general_tools import timestamp, get_current_date, get_date_start_and_end_time
+from utils.general_tools import timestamp, get_current_date, get_date_start_and_end_time
 
 base_url = f"{yaoud_env['url']}/finance/supplierInvoice"
 TTL = yaoud_env["timeout"]
